@@ -1,13 +1,18 @@
+// Enemy Global variables
+var enemyX = -150;
+
+// Player Global variables
+var playerX = 250;
+var playerY = 475;
+
 // Enemies our player must avoid
 var Enemy = function(x, y) {
+    // set enemy position
     this.x = x;
     this.y = y;
+    // set the enemy speed
     this.speed = Math.random();
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
+    // The image/sprite for our enemies
     this.sprite = 'images/enemy-bug.png';
 };
 
@@ -18,8 +23,11 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     var rate = 300;
-    if (this.x >= 450) {
-        this.x = -150;
+    // set x coor the enemy should start back at
+    var enemyEnd = 550;
+
+    if (this.x >= enemyEnd) {
+        this.x = enemyX;
         this.speed = Math.random();
     } else {
         this.x = this.x + (rate * dt * this.speed);
@@ -31,9 +39,7 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-var playerX = 250;
-var playerY = 475;
-
+// Player function
 var player = function(){
     this.x = playerX;
     this.y = playerY;
@@ -99,8 +105,29 @@ player.prototype.handleInput = function(key) {
 var allEnemies = [];
 
 var Enemies = {
-    // TODO think about levels & rows
+    // // TODO think about levels & rows
+    // "level": {
+    //     "baby": 10,
+    // },
+    // "rows": {
+    //     "row1": 75,
+    // }
 };
+
+// Adds enemies to allEnemies array
+Enemies.spawn = function(number) {
+    for (var i = 0; i < number; i++) {
+        switch (i % 3) {
+            case 0:
+                allEnemies[i] = new Enemy(enemyX, Enemies.rows.row1);
+                break;
+            default:
+
+        }
+    }
+};
+
+// Enemies.spawn(Enemies.level.baby);
 
 var player = new player();
 
